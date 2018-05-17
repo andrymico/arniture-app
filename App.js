@@ -12,7 +12,8 @@ import Login from './src/screens/Login'
 import Register from './src/screens/Register'
 import Home from './src/screens/Home'
 import AR from './src/screens/AR'
-
+import { Provider } from 'react-redux'
+import store from './src/stores/index'
 
 const AuthStack = createSwitchNavigator({
   Login: {
@@ -45,7 +46,6 @@ const RootStack = createStackNavigator({
     screen: HomeStack
   }
 },{
-  initialRouteName: 'HomeStack',
   headerMode: 'none',
   navigationOptions: {
     headerVisible: false,
@@ -55,8 +55,10 @@ const RootStack = createStackNavigator({
 export default class App extends Component {
   render() {
     return (
-      <RootStack />
-    );
+      <Provider store={store}>
+        <RootStack />
+      </Provider>
+    )
   }
 }
 
