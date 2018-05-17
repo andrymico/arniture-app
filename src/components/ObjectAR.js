@@ -4,8 +4,6 @@ import React, { Component } from 'react';
 
 import {StyleSheet} from 'react-native';
 
-import ObjectAR from './components/ObjectAR';
-
 import {
   ViroARScene,
   ViroText,
@@ -18,7 +16,7 @@ import {
   ViroDirectionalLight
 } from 'react-viro';
 
-export default class HelloWorldSceneAR extends Component {
+export default class ObjectAR extends Component {
 
   constructor() {
     super();
@@ -31,6 +29,16 @@ export default class HelloWorldSceneAR extends Component {
 
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
+  }
+
+  _onInitialized(state, reason) {
+    if (state == ViroConstants.TRACKING_NORMAL) {
+      this.setState({
+        text : "ARniture"
+      });
+    } else if (state == ViroConstants.TRACKING_NONE) {
+      // Handle loss of tracking
+    }
   }
 
   _onRotate = (rotateState, rotationFactor, source) => {
@@ -50,24 +58,19 @@ export default class HelloWorldSceneAR extends Component {
 
   render() {
     return (
-      <ViroARScene onTrackingUpdated={this._onInitialized} >
-        <ViroAmbientLight color="#00ffff"/>
-        <ViroDirectionalLight color="#ffffff" direction={[-.5, -1, 0]}/>
-        <ObjectAR/>
-        <ObjectAR/>
-        <ObjectAR/>
-      </ViroARScene>
+      <Viro3DObject
+        source={require('../assets/test_obj/square.obj')}
+        resources={[require('../assets/test_obj/square.mtl')]}
+        ref={this._setARNodeRef}
+        rotation={this.state.rotation}
+        onRotate={this._onRotate}
+        onDrag={() => {}}
+        dragType="FixedToWorld"
+        position={[0, -1, -3]}
+        scale={[0.2, 0.2, 0.1]}
+        type="OBJ"
+      />
     );
-  }
-
-  _onInitialized(state, reason) {
-    if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({
-        text : "ARniture"
-      });
-    } else if (state == ViroConstants.TRACKING_NONE) {
-      // Handle loss of tracking
-    }
   }
 }
 
@@ -81,4 +84,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = HelloWorldSceneAR;
+module.exports = ObjectAR;
