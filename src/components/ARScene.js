@@ -1,8 +1,11 @@
 'use strict';
 
 import React, { Component } from 'react';
-
-import {StyleSheet} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Button
+} from 'react-native';
 
 import {
   ViroARScene,
@@ -16,7 +19,9 @@ import {
   ViroDirectionalLight
 } from 'react-viro';
 
-export default class ObjectAR extends Component {
+import ObjectAR from './ObjectAR';
+
+export default class ARScene extends Component {
 
   constructor() {
     super();
@@ -48,18 +53,11 @@ export default class ObjectAR extends Component {
 
   render() {
     return (
-      <Viro3DObject
-        ref={this._setARNodeRef}
-        rotation={this.state.rotation}
-        onRotate={this._onRotate}
-        onDrag={()=>{}}
-        dragType="FixedToWorld"
-        source={require('../res/test_obj/square.obj')}
-        resources={[require("../res/test_obj/square.mtl")]}
-        position={[0, -1, -3]}
-        scale={[0.2, 0.2, 0.1]}
-        type="OBJ"
-      />
+      <ViroARScene onTrackingUpdated={this._onInitialized} >
+        <ViroAmbientLight color="#00ffff"/>
+        <ViroDirectionalLight color="#ffffff" direction={[-.5, -1, 0]}/>
+        <ObjectAR/>
+      </ViroARScene>
     );
   }
 
@@ -84,4 +82,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = ObjectAR;
+module.exports = ARScene;
