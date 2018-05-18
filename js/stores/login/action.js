@@ -4,6 +4,7 @@ import {
   RESET
 } from './action.types'
 import axios from 'axios'
+import { AsyncStorage } from 'react-native'
 
 const endPoint = 'http://35.198.234.250/users/signin'
 
@@ -14,6 +15,7 @@ export const login = (email, password) => {
       password: password
     })
       .then(function (response) {
+        AsyncStorage.setItem('token', response.data.token)
         dispatch(loginSuccess(response.data.token))
       })
       .catch(function (err) {

@@ -29,7 +29,6 @@ export const showDialog = () => {
     ],
     { cancelable: false }
   )
-  
 }
 
 export const removeObjectAR = () => {
