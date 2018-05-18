@@ -8,12 +8,12 @@ import {
 import {
   createSwitchNavigator,
   createStackNavigator } from 'react-navigation'
-import Login from './src/screens/Login'
-import Register from './src/screens/Register'
-import Home from './src/screens/Home'
-import AR from './src/screens/AR'
+import Login from './js/screens/Login'
+import Register from './js/screens/Register'
+import Home from './js/screens/Home'
+import AR from './js/screens/AR'
 import { Provider } from 'react-redux'
-import store from './src/stores/index'
+import store from './js/stores/index'
 
 const AuthStack = createSwitchNavigator({
   Login: {
