@@ -1,19 +1,17 @@
 {
-  "name": "ViroSample",
+  "name": "arniturebismillah",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "prestart": "./node_modules/react-viro/bin/run_ngrok.sh",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "start2": "react-native start",
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
     "test": "jest"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "react": "16.3.1",
     "react-native": "0.55.1",
+    "react-native-button": "^2.3.0",
     "react-navigation": "^2.0.1",
     "react-redux": "^5.0.7",
     "react-viro": "2.6.1",
