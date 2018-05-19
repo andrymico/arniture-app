@@ -4,6 +4,7 @@ import {
   RESET
 } from './action.types'
 import axios from 'axios'
+import {AsyncStorage} from 'react-native'
 
 const endPoint = 'http://ec2-34-237-243-5.compute-1.amazonaws.com/users/signin'
 
@@ -14,6 +15,8 @@ export const login = (email, password) => {
       password: password
     })
       .then(function (response) {
+        // AsyncStorage.setItem('@MySuperStore:key', response.data.token)
+        AsyncStorage.setItem('test', 'Initesttoken')
         dispatch(loginSuccess(response.data.token))
       })
       .catch(function (err) {

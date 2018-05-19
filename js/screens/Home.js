@@ -4,10 +4,12 @@ import { bindActionCreators } from 'redux'
 import {
   View,
   Text,
-  Button
+  Button,
+  StyleSheet
 } from 'react-native'
 import { resetLoginState } from '../stores/login/action'
 import { resetRegisterState } from '../stores/register/action'
+import Catalogue from '../components/Catalogue';
 
 class Home extends Component {
   goToAR = () => {
@@ -22,18 +24,25 @@ class Home extends Component {
 
   render () {
     return (
-      <View>
-        <Button
-        title="logout"
-        onPress= { this.logout }/>
-        <Text>Home</Text>
-        <Button 
-          onPress={ this.goToAR }
-          title="Go To AR"/>
-      </View>
+      <Catalogue nav={this.props.navigation}/>
     )
   }
 }
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#d32f2f'
+  },
+  header: {
+    color: '#fff',
+    fontSize: 36,
+    fontWeight: 'bold',
+    marginVertical: 36,
+    alignSelf: 'center'
+  }
+})
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   resetLoginState,

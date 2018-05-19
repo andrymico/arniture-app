@@ -47,7 +47,7 @@ class ARScene extends Component {
 
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
-        {/* <ViroAmbientLight color="#ffffff"/> */}
+        <ViroAmbientLight color="#ffffff"/>
         <ViroDirectionalLight color="#ffffff" direction={[-.5, -1, 0]}/>
         { showObjectAR }
       </ViroARScene>

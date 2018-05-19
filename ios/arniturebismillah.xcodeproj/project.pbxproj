@@ -654,6 +654,8 @@
 				03AD0C1845757F01920C69B6 /* [CP] Copy Pods Resources */,
 				96369D9F0E3E18F674A7D137 /* Execute Ngrok */,
 				CB24074E267CD32196DB4BF8 /* Copy ngrok endpoint */,
+				1376294435584661F7BC6E85 /* Execute Ngrok */,
+				173CA9AA20155241C8B7A222 /* Copy ngrok endpoint */,
 			);
 			buildRules = (
 			);
@@ -1137,6 +1139,36 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-arniturebismillah/Pods-arniturebismillah-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		1376294435584661F7BC6E85 /* Execute Ngrok */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Execute Ngrok";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/ngrok_launch.sh";
+			showEnvVarsInLog = 1;
+		};
+		173CA9AA20155241C8B7A222 /* Copy ngrok endpoint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy ngrok endpoint";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "DEST=$CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\nendpointfile=\"ngrokendpoint.txt\"\nif [[ -e \"$SRCROOT/$endpointfile\" ]]; then\necho \"Ngrok endpoint file found, copying over...\"\ncp \"$SRCROOT/$endpointfile\" \"$DEST/$endpointfile\"\nbreak;\nfi";
+			showEnvVarsInLog = 1;
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
