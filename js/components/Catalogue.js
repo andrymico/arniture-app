@@ -4,7 +4,8 @@ import {
   Text,
   ScrollView,
   StyleSheet,
-  AsyncStorage
+  AsyncStorage,
+  Button
 } from 'react-native';
 import ItemCard from './ItemCard';
 import { connect } from 'react-redux'
@@ -25,9 +26,16 @@ class Catalogue extends Component {
     return objectList
   }
 
+  goToCart = () => {
+    this.props.nav.navigate('Cart')
+  }
+
   render() {
     return (
       <View style={style.container}>
+      <Button
+        title="cart"
+        onPress = { () => this.goToCart() }/>
         <ScrollView style={{width: '100%'}}>
           <Text style={style.header}>Catalogue</Text>
           { this.renderCard() }

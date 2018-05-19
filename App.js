@@ -12,6 +12,7 @@ import Login from './js/screens/Login'
 import Register from './js/screens/Register'
 import Home from './js/screens/Home'
 import AR from './js/screens/AR'
+import Cart from './js/screens/Cart'
 import { Provider } from 'react-redux'
 import store from './js/stores/index'
 
@@ -24,12 +25,15 @@ const AuthStack = createSwitchNavigator({
   }
 })
 
-const HomeStack = createStackNavigator({
+const HomeStack = createSwitchNavigator({
   Home: {
     screen: Home
   },
   AR: {
     screen: AR
+  },
+  Cart: {
+    screen: Cart
   }
 },{
   headerMode: 'none',
@@ -38,7 +42,7 @@ const HomeStack = createStackNavigator({
   }
 })
 
-const RootStack = createStackNavigator({
+const RootStack = createSwitchNavigator({
   AuthStack: {
     screen: AuthStack
   },

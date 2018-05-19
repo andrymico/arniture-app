@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:arniturebismillah.xcodeproj">
+      location = "group:/Users/cecha/Documents/Hacktiv8/final-project/new/arniturebismillah/ios/arniturebismillah.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

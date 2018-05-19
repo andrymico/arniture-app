@@ -19,6 +19,18 @@ import {
 } from 'react-viro';
 
 import { removeObjectAR } from '../stores/objects/actions'
+import {
+  chair_obj,
+  chair_mtl,
+  couch_obj,
+  couch_mtl,
+  redcarpet_obj,
+  redcarpet_mtl
+} from '../assets/AssetDirectory'
+
+import { addToCart } from '../stores/cart/action'
+
+import { captureScreen } from 'react-native-view-shot'
 
 class ObjectAR extends Component {
 
@@ -50,10 +62,13 @@ class ObjectAR extends Component {
 
   deleteThis = () => {
     let ARObjectList = this.props.objects.ARobjects
-    alert(ARObjectList)
-    ARObjectList.splice(this.props.index, 1)
-    alert(ARObjectList, 'setelah dihapus')
-    this.props.removeObjectAR(ARObjectList)
+    let newBucket = []
+    ARObjectList.forEach(obj => {
+      if (obj._id !== this.props.object._id) {
+        newBucket.push(obj)
+      }
+    })
+    this.props.removeObjectAR(newBucket)
   }
   
   _onClick = () => {
@@ -65,7 +80,7 @@ class ObjectAR extends Component {
         'Alert Title',
         'My Alert Msg',
         [
-          {text: 'Add to Cart', onPress: () => console.log('Ask me later pressed')},
+          {text: 'Add to Cart', onPress: () => this.props.addToCart(this.props.object._id, this.props.token, this.props.object.price)},
           {text: 'Delete', onPress: () => this.deleteThis()},
         ],
         { cancelable: false }
@@ -76,12 +91,37 @@ class ObjectAR extends Component {
     }
   }
 
+  doSnapShot = () => {
+    captureScreen({
+      format: "jpg",
+      quality: 0.8
+    })
+    .then(
+      uri => console.log("Image saved to", uri),
+      error => console.error("Oops, snapshot failed", error)
+    );
+  }
+
   _onPinch = (state, source) => {
     if (state == 3) {
     
     }
   }
   render() {
+    let obj = ''
+    let mtl = ''
+      if(this.props.object.name === 'Wooden Chair') {
+        obj = chair_obj
+        mtl = chair_mtl
+      } else if (this.props.object.name === 'Red Carpet') {
+        obj = redcarpet_obj,
+        mtl = redcarpet_mtl
+      } else {
+        obj = couch_obj,
+        mtl = couch_mtl
+      }
+
+
     return (
       <ViroNode>
         <ViroSpotLight 
@@ -97,9 +137,8 @@ class ObjectAR extends Component {
           ref={this._setSpotLightRef} />
 
           <Viro3DObject
-            source={require('../assets/wooden-chair/chair1.obj')}
-            resources={[require('../assets/wooden-chair/chair1.mtl'),
-                        require('../assets/wooden-chair/wood.jpg')]}
+            source={obj}
+            resources={mtl}
             onClick={this._onClick}
             ref={this._setARNodeRef}
             rotation={this.state.rotation}
@@ -138,12 +177,14 @@ var styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  objects : state.objects
+  objects : state.objects,
+  token: state.login.token
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   showDialog,
-  removeObjectAR
+  removeObjectAR,
+  addToCart
 }, dispatch)
 
 export default connect(

@@ -4,16 +4,21 @@ import { bindActionCreators } from 'redux';
 import {
   loadObjects,
   createObjectAR,
-  removeObjectAR
+  removeObjectAR,
+  reset
 } from '../stores/objects/actions';
 import {
   View,
   Text,
-  Button,
-  StyleSheet
+  StyleSheet,
+  ScrollView
 } from 'react-native'
 import { ViroARSceneNavigator } from 'react-viro';
 import ARScene from '../components/ARScene';
+import Modal from 'react-native-modalbox';
+import Button from 'react-native-button';
+import ItemCard from '../components/ItemCard';
+import { captureScreen } from 'react-native-view-shot'
 
 class AR extends Component {
   constructor() {
@@ -24,25 +29,45 @@ class AR extends Component {
   }
 
   simulateObject = () => {
-    let dummy = {
-      name: 'dummy',
-      price: 999999,
-      source: '/test_obj/square.obj',
-      resources: '/test_obj/square.mtl'
-    }
-    
     this.props.createObjectAR(dummy)
+  }
+
+  toHome () {
+    this.props.navigation.navigate('Home')
+  }
+
+  renderList() {
+    const data = this.props.items.data
+    let objectList = []
+    data.forEach(d => {
+      objectList.push(<ItemCard item={d} key={d._id} />)
+    })
+    return objectList
+  }
+
+  doSnapShot = () => {
+    captureScreen({
+      format: "jpg",
+      quality: 0.8
+    })
+    .then(
+      uri => console.log("Image saved to", uri),
+      error => console.error("Oops, snapshot failed", error)
+    )
   }
 
   render () {
     return (
       <View collapsable={false} style={{flex: 1}}>
-        <Text>AR</Text>
-        <Text>{JSON.stringify(this.props.objects.ARobjects)}</Text>
-        <Button 
-          title="Add Furniture"
-          onPress={this.simulateObject}
-        />
+      <Button onPress = {() => this.toHome()}>Back</Button>                
+      <Button onPress={() => this.refs.modal6.open()} style={styles.btn}>Add Item</Button>
+      <Button onPress={() => this.props.reset() }>Reset</Button>  
+      <Button onPress={() => this.doSnapShot() }>Screenshot</Button>
+        <Modal style={[styles.modal, styles.modal4]} position={"bottom"} ref={"modal6"} swipeArea={20}>
+          <ScrollView horizontal={true}>
+            {this.renderList()}
+          </ScrollView>
+        </Modal>
         <ViroARSceneNavigator
           apiKey={ this.state.apiKey }
           initialScene={{ scene: ARScene }}
@@ -53,14 +78,45 @@ class AR extends Component {
   }
 }
 
+const styles = StyleSheet.create({  
+  btn: {
+    margin: 10,
+    backgroundColor: "#3B5998",
+    color: "white",
+    padding: 10
+  },
+
+  btnModal: {
+    width: 50,
+    height: 50,
+    backgroundColor: "transparent"
+  },
+
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  modal4: {
+    height: 250
+  },
+
+  text: {
+    color: "black",
+    fontSize: 22
+  }
+});
+
 const mapStateToProps = (state) => ({
-  objects: state.objects
+  objects: state.objects,
+  items: state.items
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   loadObjects,
   createObjectAR,
-  removeObjectAR
+  removeObjectAR,
+  reset
 }, dispatch)
 
 export default connect(

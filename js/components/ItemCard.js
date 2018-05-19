@@ -16,8 +16,11 @@ import { createObjectAR } from '../stores/objects/actions';
 class ItemCard extends Component {
 
   toAR = () => {
-
-    this.props.nav.navigate('AR')
+    this.props.createObjectAR(this.props.item)
+    if (this.props.nav) {
+      this.props.nav.navigate('AR')
+    }
+    
   }
 
   render() {
@@ -94,7 +97,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  addToCart
+  addToCart,
+  createObjectAR
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps) (ItemCard)

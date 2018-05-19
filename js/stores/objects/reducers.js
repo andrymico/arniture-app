@@ -3,7 +3,8 @@ import {
   ACTION_PENDING,
   ACTION_ERROR,
   CREATE_AR_OBJECT,
-  REMOVE_AR_OBJECT
+  REMOVE_AR_OBJECT,
+  RESET
 } from './action.types';
 
 const initialState = {
@@ -54,6 +55,10 @@ const objectReducers = (state = {...initialState}, action) => {
       return {
         ...state,
         ARobjects: [...action.payload]
+      }
+    case RESET:
+      return {
+        ...initialState
       }
     default:
       return state

@@ -39,17 +39,23 @@ class ARScene extends Component {
     this.spotLight = component;
   }
 
-  render() {
+  showObjectAR() {
+    let arrObj = []
     const ARobjects = this.props.objects.ARobjects
-    let showObjectAR = ARobjects.map((object, index) => 
-      <ObjectAR index={index} />
-    )
+    let showObjectAR = ARobjects.forEach((object, index) => {
+      arrObj.push(<ObjectAR key={index} object={object} />)
+    })
+
+    return arrObj
+  }
+
+  render() {
 
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
         <ViroAmbientLight color="#ffffff"/>
         <ViroDirectionalLight color="#ffffff" direction={[-.5, -1, 0]}/>
-        { showObjectAR }
+        { this.showObjectAR() }
       </ViroARScene>
     );
   }

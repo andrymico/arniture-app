@@ -4,10 +4,9 @@ import {
   GET_CART_SUCCESS
 } from './action.types'
 import axios from 'axios'
-import {AsyncStorage} from 'react-native';
 let endPoint = 'http://ec2-34-237-243-5.compute-1.amazonaws.com/'
 
-export const getCart = () => {
+export const getCart = (token) => {
   return dispatch => {
     dispatch(getCartLoading())
     axios.get(endPoint+'cart', {
@@ -56,10 +55,10 @@ const getCartLoading = () => ({
   type: GET_CART_LOADING
 })
 const getCartError = (err) => ({
-  type: getCartError,
+  type: GET_CART_ERROR,
   message: err
 })
 const getCartSuccess = (payload) => ({
-  type: getCartSuccess,
+  type: GET_CART_SUCCESS,
   payload: payload
 })

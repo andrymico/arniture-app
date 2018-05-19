@@ -16,6 +16,8 @@ class Home extends Component {
     this.props.navigation.navigate('AR')
   }
 
+  
+
   logout = () => {
     this.props.resetLoginState()
     this.props.resetRegisterState()
@@ -24,6 +26,7 @@ class Home extends Component {
 
   render () {
     return (
+      
       <Catalogue nav={this.props.navigation}/>
     )
   }

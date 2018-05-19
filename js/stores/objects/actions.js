@@ -3,7 +3,8 @@ import {
   ACTION_PENDING,
   ACTION_ERROR,
   CREATE_AR_OBJECT,
-  REMOVE_AR_OBJECT
+  REMOVE_AR_OBJECT,
+  RESET
 } from './action.types';
 import { Alert } from 'react-native'
 import axios from 'axios'
@@ -59,4 +60,14 @@ const actionCreateAR = (newObject) => ({
 const removeARobjects = (payload) => ({
   type: REMOVE_AR_OBJECT,
   payload: payload
+})
+
+export const reset = () => {
+  return dispatch => {
+    dispatch(resetThis())
+  }
+}
+
+const resetThis = () => ({
+  type: RESET
 })
