@@ -20,7 +20,7 @@ class Catalogue extends Component {
     let objectList = []
     
     this.props.items.data.forEach((item, i) => {
-      objectList.push(<ItemCard key={`card-${i}`} item={item} nav={this.props.nav} />)
+      objectList.push(<ItemCard key={`card-${i}`} id={i} item={item} nav={this.props.nav} />)
     })
 
     return objectList
@@ -49,7 +49,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#d32f2f'
+    backgroundColor: '#d32f2f',
   },
   header: {
     color: '#fff',

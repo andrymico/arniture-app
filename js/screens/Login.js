@@ -6,12 +6,9 @@ import {
   StyleSheet,
   TouchableHighlight } from 'react-native'
 import Button from 'react-native-button';
-import axios from 'axios'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { 
-  login,
-  resetState } from '../stores/login/action'
+import { login, resetState } from '../stores/login/action'
 
 class Login extends Component {
   constructor (props) {
@@ -46,20 +43,22 @@ class Login extends Component {
         <Text>
           {this.props.isLogin}
         </Text>
-        <Text style={{fontWeight: 'bold', color: '#d32f2f', fontSize: 32}}>Login</Text>
+        <Text style={styles.header}>Login</Text>
         <TextInput
-          style={{backgroundColor: '#fff', width: 250, margin: 12}}
+          style={styles.inputText}
           placeholder="please input your email"
-          onChangeText={(email) => this.setState({ email })} />
+          onChangeText={
+            (email) => this.setState({ email })
+          } />
         <TextInput
-          style={{backgroundColor: '#fff', width: 250, margin: 12}}
+          style={styles.inputText}
           placeholder="please input your password"
-          secureTextEntry={true}
+          secureTextEntry={ true }
           onChangeText={(password) => this.setState({ password })} />
         <Text>{ this.props.errorMessage }</Text>
         <Button
           onPress={ this.login }
-          style={{margin: 10, backgroundColor: "#d32f2f", color: "white",padding: 10}}>
+          style={styles.btn}>
           Login
         </Button>
         <TouchableHighlight
@@ -80,9 +79,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  header: {
+    fontWeight: 'bold',
+    color: '#d32f2f',
+    fontSize: 32
+  },
+  inputText: {
+    backgroundColor: '#fff',
+    width: 250,
+    margin: 12
+  },
   underlined: {
     textDecorationLine: 'underline',
     margin: 10
+  },
+  btn: {
+    margin: 10,
+    backgroundColor: "#d32f2f",
+    color: "white",
+    padding: 10
   }
 })
 

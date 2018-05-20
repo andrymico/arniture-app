@@ -3,10 +3,9 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   StyleSheet,
-  TouchableHighlight
-} from 'react-native'
+  TouchableHighlight } from 'react-native'
+import Button from 'react-native-button';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { register } from '../stores/register/action'
@@ -37,29 +36,32 @@ class Register extends Component {
 
   render () {
     return (
-      <View>
-        <Text>Register</Text>
+      <View style={styles.container}>
+        <Text style={styles.header}>Register</Text>
         <TextInput 
+          style={styles.inputText}
           placeholder="please input your email"
           onChangeText={
             (email) => this.setState({ email })
-          }
-        />
+          } />
         <TextInput 
+          style={styles.inputText}
           placeholder="please input your password"
+          secureTextEntry={ true }
           onChangeText={
             (password) => this.setState({ password })
-          }
-        />
+          } />
         <Text>{ this.props.errorMessage }</Text>
-        <Button 
-          title="Register"
+        <Button
           onPress={ this.register }
-        />
-        <TouchableHighlight onPress={this.toLogin}>
+          style={styles.btn}>
+          Register
+        </Button>
+        <TouchableHighlight
+          onPress={this.toLogin}>
           <Text
             style={styles.underlined}>
-            already a user ? login here
+            Already a user ? Login here
           </Text>
         </TouchableHighlight>
       </View>
@@ -68,8 +70,31 @@ class Register extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  header: {
+    fontWeight: 'bold',
+    color: '#d32f2f',
+    fontSize: 32
+  },
+  inputText: {
+    backgroundColor: '#fff',
+    width: 250,
+    margin: 12
+  },
   underlined: {
     textDecorationLine: 'underline',
+    margin: 10
+  },
+  btn: {
+    margin: 10,
+    backgroundColor: "#d32f2f",
+    color: "white",
+    padding: 10
   }
 })
 

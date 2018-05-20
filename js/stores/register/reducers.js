@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   isRegistered: false,
-  errorMessage: 'none'
+  errorMessage: ''
 }
 
 const reducers = (state = { ...initialState }, action) => {

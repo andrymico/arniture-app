@@ -1,43 +1,24 @@
 'use strict';
 
 import React, { Component } from 'react';
-
-import {StyleSheet} from 'react-native';
-
-import { showDialog } from '../stores/objects/actions'
 import { connect } from 'react-redux';
-
 import { bindActionCreators } from 'redux';
-
-import { Alert } from 'react-native'
+import { Alert, StyleSheet } from 'react-native'
 import {
   Viro3DObject,
   ViroNode,
+  ViroButton,
+  ViroText,
   ViroQuad,
-  ViroSpotLight,
-  ViroButton
+  ViroSpotLight
 } from 'react-viro';
-
-import { removeObjectAR } from '../stores/objects/actions'
-import {
-  chair_obj,
-  chair_mtl,
-  couch_obj,
-  couch_mtl,
-  redcarpet_obj,
-  redcarpet_mtl
-} from '../assets/AssetDirectory'
-
+import { removeObjectAR, showDialog} from '../stores/objects/actions'
 import { addToCart } from '../stores/cart/action'
-
-import { captureScreen } from 'react-native-view-shot'
+import ViewShot, { captureScreen } from 'react-native-view-shot'
 
 class ObjectAR extends Component {
-
   constructor() {
     super();
-
-    // Set initial state here
     this.state = {
       text: "Initializing AR...",
       rotation: [0, 45, 0],
@@ -61,13 +42,14 @@ class ObjectAR extends Component {
   }
 
   deleteThis = () => {
-    let ARObjectList = this.props.objects.ARobjects
-    let newBucket = []
-    ARObjectList.forEach(obj => {
-      if (obj._id !== this.props.object._id) {
-        newBucket.push(obj)
-      }
-    })
+    let newBucket = [...this.props.objects.ARobjects]
+    let dummy = {
+      item_obj: '',
+      item_mtl: ['', ''],
+      scale: [.001, .001, .001]
+    }
+
+    newBucket.splice(this.props.id, 1, dummy)
     this.props.removeObjectAR(newBucket)
   }
   
@@ -77,18 +59,27 @@ class ObjectAR extends Component {
     })
     if (this.state.clickFlag === 1) {
       Alert.alert(
-        'Alert Title',
-        'My Alert Msg',
+        `${this.props.object.name}`,
+        'What are you gonna do?',
         [
           {text: 'Add to Cart', onPress: () => this.props.addToCart(this.props.object._id, this.props.token, this.props.object.price)},
           {text: 'Delete', onPress: () => this.deleteThis()},
+          {text: 'Cancel', onPress: () => {}, style: 'cancel'}
         ],
-        { cancelable: false }
+        { 
+          cancelable: true
+        }
       )
       this.setState({
         clickFlag: 0
       })
     }
+  }
+
+  _onDrag = () => {
+    this.setState({
+      clickFlag: 0
+    })
   }
 
   doSnapShot = () => {
@@ -102,79 +93,44 @@ class ObjectAR extends Component {
     );
   }
 
-  _onPinch = (state, source) => {
-    if (state == 3) {
-    
-    }
-  }
   render() {
-    let obj = ''
-    let mtl = ''
-      if(this.props.object.name === 'Wooden Chair') {
-        obj = chair_obj
-        mtl = chair_mtl
-      } else if (this.props.object.name === 'Red Carpet') {
-        obj = redcarpet_obj,
-        mtl = redcarpet_mtl
-      } else {
-        obj = couch_obj,
-        mtl = couch_mtl
-      }
-
-
     return (
       <ViroNode>
-        <ViroSpotLight 
+        <ViroSpotLight
           innerAngle={5}
-          outerAngle={20}
-          direction={[0,-1,0]}
-          position={[0, 4, 0]}
+          outerAngle={25}
+          direction={[0, -1, -.2]}
+          position={[0, 3, 0]}
           color="#ffffff"
           castsShadow={true}
-          shadowNearZ={.1}
-          shadowFarZ={6}
-          shadowOpacity={.9}
-          ref={this._setSpotLightRef} />
+          shadowMapSize={2048}
+          shadowNearZ={2}
+          shadowFarZ={5}
+          shadowOpacity={.7} />
 
-          <Viro3DObject
-            source={obj}
-            resources={mtl}
-            onClick={this._onClick}
-            ref={this._setARNodeRef}
-            rotation={this.state.rotation}
-            onRotate={this._onRotate}
-            onDrag={() => {
-              this.setState({
-                clickFlag: 0
-              })
-            }}
-            onPinch= { this._onPinch }
-            dragType="FixedToWorld"
-            position={[0, -1, -1]}
-            scale={[.2, .2, .2]}
-            type="OBJ"
-          />
+        <Viro3DObject
+          source={{uri: `https://storage.googleapis.com/arniture/${this.props.object.item_obj}`}}
+          resources={[{uri: `https://storage.googleapis.com/arniture/${this.props.object.item_mtl[0]}`},
+                      {uri: `https://storage.googleapis.com/arniture/${this.props.object.item_mtl[1]}`}]}
+          onClick={this._onClick}
+          ref={this._setARNodeRef}
+          rotation={this.state.rotation}
+          onRotate={this._onRotate}
+          onDrag={this._onDrag}
+          dragType="FixedToWorld"
+          position={[0, -1, -1]}
+          scale={this.props.object.scale}
+          type="OBJ" />
 
-        <ViroQuad
+        <ViroQuad 
+          position={[0, -1, -1]}
           rotation={[-90, 0, 0]}
-          position={[0, -.001, 0]}
-          width={2.5} height={2.5}
-          arShadowReceiver={true}
-          ignoreEventHandling={true} />
+          width={20} height={20}
+          arShadowReceiver={true} />
       </ViroNode>
     );
   }
 }
-
-var styles = StyleSheet.create({
-  helloWorldTextStyle: {
-    fontFamily: 'Arial',
-    fontSize: 30,
-    color: '#ffffff',
-    textAlignVertical: 'center',
-    textAlign: 'center',  
-  },
-});
 
 const mapStateToProps = (state) => ({
   objects : state.objects,

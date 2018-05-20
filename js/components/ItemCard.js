@@ -20,7 +20,6 @@ class ItemCard extends Component {
     if (this.props.nav) {
       this.props.nav.navigate('AR')
     }
-    
   }
 
   render() {

@@ -11,7 +11,9 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  Image,
+  TouchableHighlight
 } from 'react-native'
 import { ViroARSceneNavigator } from 'react-viro';
 import ARScene from '../components/ARScene';
@@ -58,38 +60,48 @@ class AR extends Component {
 
   render () {
     return (
-      <View collapsable={false} style={{flex: 1}}>
-      <Button onPress = {() => this.toHome()}>Back</Button>                
-      <Button onPress={() => this.refs.modal6.open()} style={styles.btn}>Add Item</Button>
-      <Button onPress={() => this.props.reset() }>Reset</Button>  
-      <Button onPress={() => this.doSnapShot() }>Screenshot</Button>
+      <View collapsable={false} style={styles.container}>
+        <Button 
+          onPress={() => this.toHome()}>Back</Button>                
+          
         <Modal style={[styles.modal, styles.modal4]} position={"bottom"} ref={"modal6"} swipeArea={20}>
           <ScrollView horizontal={true}>
             {this.renderList()}
           </ScrollView>
         </Modal>
+
         <ViroARSceneNavigator
+          style={ styles.arView }
           apiKey={ this.state.apiKey }
           initialScene={{ scene: ARScene }}
           debug={true}
         />
+        
+        <View style={{position: 'absolute',  left: 0, right: 0, bottom: 80, alignItems: 'center'}}>
+          <TouchableHighlight style={styles.buttons}
+            onPress={() => this.refs.modal6.open()}
+            underlayColor={'#00000000'} >
+            <Image source={require('../assets/btn_mode_objects.png')} />
+          </TouchableHighlight>
+        </View>
+
+        {/* <Button
+          onPress={() => this.props.reset() }>Reset</Button>
+        <Button
+          style={styles.btn}
+          onPress={() => this.refs.modal6.open()}>Add Item</Button> */}
       </View>
     )
   }
 }
 
-const styles = StyleSheet.create({  
-  btn: {
-    margin: 10,
-    backgroundColor: "#3B5998",
-    color: "white",
-    padding: 10
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
   },
 
-  btnModal: {
-    width: 50,
-    height: 50,
-    backgroundColor: "transparent"
+  arView: {
+    flex: 1
   },
 
   modal: {
@@ -101,9 +113,17 @@ const styles = StyleSheet.create({
     height: 250
   },
 
-  text: {
-    color: "black",
-    fontSize: 22
+  buttons : {
+    height: 80,
+    width: 80,
+    paddingTop:20,
+    paddingBottom:20,
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor:'#00000000',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ffffff00',
   }
 });
 
