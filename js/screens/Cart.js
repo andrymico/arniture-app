@@ -15,21 +15,30 @@ class Cart extends Component {
   componentDidMount () {
     this.props.getCart(this.props.token)
   }
-
+  toHome () {
+    this.props.navigation.navigate('Home')
+  }
   renderCard() {
     let cartList = []
-
-    this.props.cart.data.forEach((object, i) => {
-      cartList.push(<CartItem key={`cart-${i}`} object={object} />)
-    })     
-
+    if(this.props.cart.data){
+      this.props.cart.data.forEach((object, i) => {
+        cartList.push(<CartItem key={`cart-${i}`} object={object} idx={i} />)
+      })     
+    }
     return cartList
   }
-
   render() {
+    let totalPrice = 0
+    if (this.props.cart.data) {
+      this.props.cart.data.forEach(data => {
+        totalPrice += data.totalPrice 
+      })
+    }
     return (
       <View style={style.container}>
         <ScrollView style={{width: '100%'}}>
+          <Button 
+            onPress={() => this.toHome()}>Back</Button>
           <Text style={style.header}>User Cart</Text>
           <View style={{backgroundColor: '#fff', alignItems: 'center', marginHorizontal: 10, marginVertical: 5, padding: 10}}>
             <View style={{flex: 1, flexDirection: 'row', }}>
@@ -38,7 +47,7 @@ class Cart extends Component {
                 <Text>Your Account Balance</Text>
               </View>
               <View style={{flex: 1, alignItems: 'flex-end'}}>
-                <Text style={{fontWeight: '600', fontSize: 18}}>Rp. 3.220.016</Text>
+                <Text style={{fontWeight: '600', fontSize: 18}}>{totalPrice}</Text>
                 <Text>Rp. 0</Text>
               </View>
             </View>
@@ -54,7 +63,6 @@ class Cart extends Component {
     );
   }
 }
-
 const style = StyleSheet.create({
   container: {
     flex: 1,
@@ -77,14 +85,11 @@ const style = StyleSheet.create({
     width: 240
   },
 })
-
 const mapStateToProps = (state) => ({
   token: state.login.token,
   cart: state.cart
 })
-
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getCart
 }, dispatch)
-
 export default connect(mapStateToProps, mapDispatchToProps) (Cart)

@@ -3,4 +3,6 @@ target 'arniturebismillah' do
   use_frameworks!
   pod 'ViroReact', :path => '../node_modules/react-viro/ios/'
   pod 'ViroKit', :path => '../node_modules/react-viro/ios/dist/ViroRenderer/'
+  pod 'RNViewShot', :path => '../node_modules/react-native-view-shot'
+
 end

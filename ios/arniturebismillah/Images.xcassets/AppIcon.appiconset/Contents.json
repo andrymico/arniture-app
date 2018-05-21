@@ -33,18 +33,19 @@
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "arniture copy.png",
+      "filename" : "icon 2x.jpeg",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "arniture copy 2.png",
+      "filename" : "icon 3x.jpeg",
       "scale" : "3x"
     },
     {
-      "idiom" : "ios-marketing",
       "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "icon.jpg",
       "scale" : "1x"
     }
   ],

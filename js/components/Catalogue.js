@@ -5,14 +5,26 @@ import {
   ScrollView,
   StyleSheet,
   AsyncStorage,
-  Button
+  Button,
+  CameraRoll
 } from 'react-native';
 import ItemCard from './ItemCard';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getItems } from '../stores/items/action'
+import { captureScreen } from "react-native-view-shot";
 
 class Catalogue extends Component {
+  captureScreenFunction=()=>{
+    captureScreen({
+      format: "jpg",
+      quality: 0.8
+    })
+    .then(
+      uri => CameraRoll.saveToCameraRoll(uri),
+      error => console.error("Oops, Something Went Wrong", error)
+    );
+  }
   componentDidMount() {
     this.props.getItems()
   }
@@ -33,6 +45,9 @@ class Catalogue extends Component {
   render() {
     return (
       <View style={style.container}>
+      <Button
+        title="cart"
+        onPress = { () => this.captureScreenFunction() }/>
       <Button
         title="cart"
         onPress = { () => this.goToCart() }/>

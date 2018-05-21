@@ -3,26 +3,70 @@ import {
   View,
   Text,
   Image,
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 import Button from 'react-native-button';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { 
+  increaseQuantity,
+  decreaseQuantity,
+  getCart,
+  updateCart,
+  deleteCart } from '../stores/cart/action'
+import Cart from '../screens/Cart'
 
 class CartItem extends Component {
+  increase = () => {
+    this.props.increaseQuantity(this.props.object._id)
+    let cartData = [...this.props.cart]
+    cartData.forEach(data => {
+      if (data._id === this.props.object._id) {
+        let individualPrice = data.totalPrice / data.quantity
+        data.quantity = data.quantity + 1
+        data.totalPrice = data.totalPrice + individualPrice
+      }
+    })
+    this.props.updateCart(cartData)
+  }
+
+  decrease = () => {
+    let cartData = [...this.props.cart]
+    cartData.forEach(data => {
+      if (data._id === this.props.object._id && data.quantity !== 1 ) {
+        let individualPrice = data.totalPrice / data.quantity
+        data.quantity = data.quantity - 1
+        data.totalPrice = data.totalPrice - individualPrice
+        this.props.updateCart(cartData)
+        this.props.decreaseQuantity(this.props.object._id)
+      }
+    })
+  }
+  
+  delete = () => {
+    this.props.deleteCart(this.props.object._id)
+    let cartData = [...this.props.cart]
+    cartData.splice(this.props.idx, 1)
+    this.props.updateCart(cartData)
+  }
+  
   render() {
     return (
       <View style={style.card}>
-        <Button style={style.btn1} onPress={() => alert(`Simulate AR ${this.props.object}`)}>X</Button>
+        <Button style={style.btn1} onPress={() => this.delete()}>X</Button>
         <Image 
-          source={{uri: this.props.object.itemId.img}}
+          source={{uri: `https://storage.googleapis.com/arniture/${this.props.object.itemId.img}`}}
           style={style.thumbnail} />
         <Text style={style.title}>{this.props.object.itemId.name}</Text>
-        <Text style={style.description}>{this.props.object.itemId.name}</Text>
-        <Text style={style.price}>{this.props.object.itemId.price}</Text>
+        <Text style={style.description}>{this.props.object.itemId.description}</Text>
+        <Text style={style.price}>Quantity {this.props.object.quantity}</Text>
+        <Text style={style.price}>{this.props.object.totalPrice}</Text>
+        <Button onPress={() => this.increase()}>+</Button>
+        <Button onPress={() => this.decrease()}>-</Button>
       </View>
     );
   }
 }
-
 const style = StyleSheet.create({
   card: {
     flex: 1,
@@ -59,5 +103,14 @@ const style = StyleSheet.create({
     width: '95%'
   },
 })
-
-export default CartItem
+const mapStateToProps = (state) => ({
+  cart: state.cart.data
+})
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  increaseQuantity,
+  decreaseQuantity,
+  getCart,
+  updateCart,
+  deleteCart
+}, dispatch)
+export default connect(mapStateToProps, mapDispatchToProps) (CartItem)

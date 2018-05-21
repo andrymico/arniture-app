@@ -9,14 +9,18 @@ import {
 } from 'react-native'
 import { resetLoginState } from '../stores/login/action'
 import { resetRegisterState } from '../stores/register/action'
+import { getCart } from '../stores/cart/action';
 import Catalogue from '../components/Catalogue';
 
+
 class Home extends Component {
+  componentDidMount() {
+    this.props.getCart(this.props.token)
+  }
+  
   goToAR = () => {
     this.props.navigation.navigate('AR')
   }
-
-  
 
   logout = () => {
     this.props.resetLoginState()
@@ -25,8 +29,7 @@ class Home extends Component {
   }
 
   render () {
-    return (
-      
+    return (      
       <Catalogue nav={this.props.navigation}/>
     )
   }
@@ -47,9 +50,14 @@ const style = StyleSheet.create({
   }
 })
 
+const mapStateToProps = (state) => ({
+  token: state.login.token
+})
+
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   resetLoginState,
-  resetRegisterState
+  resetRegisterState,
+  getCart
 }, dispatch)
 
-export default connect(null, mapDispatchToProps) (Home)
+export default connect(mapStateToProps, mapDispatchToProps) (Home)

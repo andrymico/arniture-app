@@ -1,11 +1,13 @@
 import {
   GET_CART_LOADING,
   GET_CART_ERROR,
-  GET_CART_SUCCESS
+  GET_CART_SUCCESS,
+  INCREASE_QUANTITY,
+  DECREASE_QUANTITY,
+  ADD_TO_CART
 } from './action.types'
 import axios from 'axios'
 let endPoint = 'http://ec2-34-237-243-5.compute-1.amazonaws.com/'
-
 export const getCart = (token) => {
   return dispatch => {
     dispatch(getCartLoading())
@@ -19,6 +21,28 @@ export const getCart = (token) => {
       })
       .catch(function (err) {
         dispatch(getCartError(err))
+      })
+  }
+}
+export const increaseQuantity = (cartId) => {
+  return dispatch => {
+    axios.put(endPoint+'cart/increase/'+cartId)
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
+  }
+}
+export const decreaseQuantity = (cartId) => {
+  return dispatch => {
+    axios.put(endPoint+'cart/decrease/'+cartId)
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (err) {
+        console.log(err)
       })
   }
 }
@@ -42,6 +66,12 @@ export const addToCart = (itemId, token, price) => {
       })
   }
 }
+
+const addToCartSuccess = (payload) => ({
+  type: ADD_TO_CART,
+  payload: payload
+})
+
 export const removeCart = (cartId) => {
   axios.delete(endPoint+'cart/'+cartId)
     .then(function (response) {
@@ -62,3 +92,23 @@ const getCartSuccess = (payload) => ({
   type: GET_CART_SUCCESS,
   payload: payload
 })
+export const updateCart = (payload) => {
+  return dispatch => {
+    dispatch(updateCartStore(payload))
+  }
+}
+const updateCartStore = (payload) => ({
+  type: INCREASE_QUANTITY,
+  payload: payload
+})
+export const deleteCart = (id, payload) => {
+  return dispatch => {
+    axios.delete(endPoint+'cart/' + id)
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
+  }
+}

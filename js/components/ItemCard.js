@@ -22,22 +22,27 @@ class ItemCard extends Component {
     }
   }
 
+  addToCart = () => {
+    this.props.addToCart(this.props.item._id, this.props.token, this.props.item.price)
+    alert("Added new item to cart")
+  }
+
   render() {
     let thumbnail = `../assets/${this.props.item.img}`
     return (
       <View style={style.card}>
         <View style={{flex: 2, marginVertical: 10}}>
           <Image 
-            source={{uri: this.props.item.img}}
+            source={{uri: `https://storage.googleapis.com/arniture/${this.props.item.img}`}}
             style={style.thumbnail} />
         </View>
         <View style={{flex:3, marginLeft: 10}}>
           <Text style={style.title}>{this.props.item.name}</Text>
-          <Text style={style.description}>{this.props.item.name}</Text>
+          <Text style={style.description}>{this.props.item.description}</Text>
           <Text style={style.price}>{this.props.item.price}</Text>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Button style={style.btn1} onPress={() => this.toAR()}>Simulate AR</Button>
-            <Button style={style.btn2} onPress={() => this.props.addToCart(this.props.item._id, this.props.token, this.props.item.price)}>Add to Cart</Button>
+            <Button style={style.btn2} onPress={() => this.addToCart()}>Add to Cart</Button>
           </View>
         </View>
       </View>

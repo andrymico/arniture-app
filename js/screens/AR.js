@@ -13,14 +13,16 @@ import {
   StyleSheet,
   ScrollView,
   Image,
-  TouchableHighlight
+  TouchableHighlight,
+  CameraRoll,
+  Alert
 } from 'react-native'
 import { ViroARSceneNavigator } from 'react-viro';
 import ARScene from '../components/ARScene';
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
 import ItemCard from '../components/ItemCard';
-import { captureScreen } from 'react-native-view-shot'
+import { captureScreen } from "react-native-view-shot";
 
 class AR extends Component {
   constructor() {
@@ -34,8 +36,12 @@ class AR extends Component {
     this.props.createObjectAR(dummy)
   }
 
-  toHome () {
+  toHome() {
     this.props.navigation.navigate('Home')
+  }
+
+  toCart() {
+    this.props.navigation.navigate('Cart')
   }
 
   renderList() {
@@ -47,23 +53,23 @@ class AR extends Component {
     return objectList
   }
 
-  doSnapShot = () => {
+  captureScreenFunction=()=>{
     captureScreen({
       format: "jpg",
       quality: 0.8
     })
     .then(
-      uri => console.log("Image saved to", uri),
-      error => console.error("Oops, snapshot failed", error)
-    )
+      uri => CameraRoll.saveToCameraRoll(uri),
+      error => console.error("Oops, Something Went Wrong", error)
+    );
+    Alert.alert('Screenshot saved to camera roll')
   }
 
   render () {
     return (
       <View collapsable={false} style={styles.container}>
-        <Button 
-          onPress={() => this.toHome()}>Back</Button>                
-          
+      <Button
+        onPress={ () => this.captureScreenFunction() }>Screenshot</Button>
         <Modal style={[styles.modal, styles.modal4]} position={"bottom"} ref={"modal6"} swipeArea={20}>
           <ScrollView horizontal={true}>
             {this.renderList()}
@@ -76,20 +82,45 @@ class AR extends Component {
           initialScene={{ scene: ARScene }}
           debug={true}
         />
-        
-        <View style={{position: 'absolute',  left: 0, right: 0, bottom: 80, alignItems: 'center'}}>
+
+        {/* BUTTON SHOULD BE UNDER ViroARSceneNavigator */}
+        <View style={{position: 'absolute', left: 10, top: 0}}>
           <TouchableHighlight style={styles.buttons}
-            onPress={() => this.refs.modal6.open()}
+            onPress={() => this.toHome()}
             underlayColor={'#00000000'} >
-            <Image source={require('../assets/btn_mode_objects.png')} />
+            <Image source={require('../assets/button-back.png')} />
           </TouchableHighlight>
         </View>
 
-        {/* <Button
-          onPress={() => this.props.reset() }>Reset</Button>
-        <Button
-          style={styles.btn}
-          onPress={() => this.refs.modal6.open()}>Add Item</Button> */}
+        <View style={{position: 'absolute', right: 70, top: 0}}>
+          <TouchableHighlight style={styles.buttons}
+            onPress={() => this.props.reset()}
+            underlayColor={'#00000000'} >
+            <Image source={require('../assets/button-reset.png')} />
+          </TouchableHighlight>
+        </View>
+
+        <View style={{position: 'absolute', right: 0, top: 0}}>
+          <TouchableHighlight style={styles.buttons}
+            onPress={() => this.toCart()}
+            underlayColor={'#00000000'} >
+            <Image source={require('../assets/button-cart.png')} />
+          </TouchableHighlight>
+        </View>
+
+        {/* {
+          this.props.cart.data ?
+          <Text style={styles.cartNotif}>{this.props.cart.data.length}</Text> :
+          <Text />
+        } */}
+
+        <View style={{position: 'absolute',  left: 0, right: 0, bottom: 10, alignItems: 'center'}}>
+          <TouchableHighlight style={styles.buttons}
+            onPress={() => this.refs.modal6.open()}
+            underlayColor={'#00000000'} >
+            <Image source={require('../assets/button-add.png')} />
+          </TouchableHighlight>
+        </View>
       </View>
     )
   }
@@ -104,6 +135,21 @@ const styles = StyleSheet.create({
     flex: 1
   },
 
+  cartNotif: {
+    position: 'absolute', 
+    paddingHorizontal: 5, 
+    backgroundColor: 'red', 
+    opacity: 0.75, 
+    borderColor: 'red', 
+    borderRadius: 10, 
+    overflow: 'hidden',
+    borderWidth: 1,
+    right: 10, 
+    top: 20, 
+    fontSize: 20, 
+    color: '#fff'
+  },
+
   modal: {
     justifyContent: 'center',
     alignItems: 'center'
@@ -116,7 +162,7 @@ const styles = StyleSheet.create({
   buttons : {
     height: 80,
     width: 80,
-    paddingTop:20,
+    paddingTop:5,
     paddingBottom:20,
     marginTop: 10,
     marginBottom: 10,
@@ -129,7 +175,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   objects: state.objects,
-  items: state.items
+  items: state.items,
+  cart: state.cart
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

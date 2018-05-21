@@ -13,7 +13,7 @@ import {
   ViroSpotLight
 } from 'react-viro';
 import { removeObjectAR, showDialog} from '../stores/objects/actions'
-import { addToCart } from '../stores/cart/action'
+import { addToCart, getCart } from '../stores/cart/action'
 import ViewShot, { captureScreen } from 'react-native-view-shot'
 
 class ObjectAR extends Component {
@@ -22,6 +22,7 @@ class ObjectAR extends Component {
     this.state = {
       text: "Initializing AR...",
       rotation: [0, 45, 0],
+      position: [0, -1, -1],
       clickFlag: 0
     };
   }
@@ -52,6 +53,11 @@ class ObjectAR extends Component {
     newBucket.splice(this.props.id, 1, dummy)
     this.props.removeObjectAR(newBucket)
   }
+
+  addToCart = () => {
+    this.props.addToCart(this.props.object._id, this.props.token, this.props.object.price)
+    alert("Added new item to cart")
+  }
   
   _onClick = () => {
     this.setState({
@@ -62,7 +68,7 @@ class ObjectAR extends Component {
         `${this.props.object.name}`,
         'What are you gonna do?',
         [
-          {text: 'Add to Cart', onPress: () => this.props.addToCart(this.props.object._id, this.props.token, this.props.object.price)},
+          {text: 'Add to Cart', onPress: () => this.addToCart() },
           {text: 'Delete', onPress: () => this.deleteThis()},
           {text: 'Cancel', onPress: () => {}, style: 'cancel'}
         ],
@@ -122,11 +128,11 @@ class ObjectAR extends Component {
           scale={this.props.object.scale}
           type="OBJ" />
 
-        <ViroQuad 
-          position={[0, -1, -1]}
+        {/* <ViroQuad
+          position={[0, 0, -1]}
           rotation={[-90, 0, 0]}
           width={20} height={20}
-          arShadowReceiver={true} />
+          arShadowReceiver={true} /> */}
       </ViroNode>
     );
   }
@@ -140,7 +146,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   showDialog,
   removeObjectAR,
-  addToCart
+  addToCart,
+  getCart
 }, dispatch)
 
 export default connect(
