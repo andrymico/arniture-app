@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { login, resetState } from '../stores/login/action'
 
-class Login extends Component {
+export class Login extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -22,7 +22,7 @@ class Login extends Component {
   toRegister = () => {
     this.props.navigation.navigate('Register')
   }
-
+// 
   login = async () => {
    await this.props.login(this.state.email, this.state.password)
   
@@ -112,4 +112,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   resetState
 }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps) (Login)
+export default connect(mapStateToProps, mapDispatchToProps) (Login) 

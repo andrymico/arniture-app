@@ -10,7 +10,13 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "chai": "^4.1.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-15": "^1.0.5",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "jsdom": "^11.10.0",
     "react": "16.3.1",
+    "react-addons-test-utils": "^15.6.2",
     "react-native": "0.55.1",
     "react-native-button": "^2.3.0",
     "react-native-modalbox": "^1.4.2",
@@ -26,7 +32,8 @@
     "babel-jest": "22.4.3",
     "babel-preset-react-native": "4.0.0",
     "jest": "22.4.3",
-    "react-test-renderer": "16.3.1"
+    "react-dom": "^16.3.2",
+    "react-test-renderer": "^16.3.2"
   },
   "jest": {
     "preset": "react-native"
