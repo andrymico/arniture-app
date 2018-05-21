@@ -24,7 +24,7 @@ import Button from 'react-native-button';
 import ItemCard from '../components/ItemCard';
 import { captureScreen } from "react-native-view-shot";
 
-class AR extends Component {
+export class AR extends Component {
   constructor() {
     super()
     this.state = {

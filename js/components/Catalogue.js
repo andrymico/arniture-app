@@ -14,7 +14,7 @@ import { bindActionCreators } from 'redux'
 import { getItems } from '../stores/items/action'
 import { captureScreen } from "react-native-view-shot";
 
-class Catalogue extends Component {
+export class Catalogue extends Component {
   captureScreenFunction=()=>{
     captureScreen({
       format: "jpg",

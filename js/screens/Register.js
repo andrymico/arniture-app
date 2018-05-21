@@ -11,7 +11,7 @@ import { bindActionCreators } from 'redux'
 import { register } from '../stores/register/action'
 import { login } from '../stores/login/action'
 
-class Register extends Component {
+export class Register extends Component {
   constructor (props) {
     super (props)
     this.state = {
