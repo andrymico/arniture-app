@@ -3,7 +3,10 @@ import {
   View,
   Text,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight,
+  Image,
+  ActivityIndicator
 } from 'react-native';
 import Button from 'react-native-button';
 import CartItem from '../components/CartItem';
@@ -15,9 +18,15 @@ class Cart extends Component {
   componentDidMount () {
     this.props.getCart(this.props.token)
   }
-  toHome () {
+
+  toHome() {
     this.props.navigation.navigate('Home')
   }
+
+  toCheckout() {
+    this.props.navigation.navigate('Checkout')
+  }
+
   renderCard() {
     let cartList = []
     if(this.props.cart.data){
@@ -27,6 +36,11 @@ class Cart extends Component {
     }
     return cartList
   }
+
+  toRp(price) {
+    return price.toLocaleString()
+  }
+
   render() {
     let totalPrice = 0
     if (this.props.cart.data) {
@@ -34,27 +48,35 @@ class Cart extends Component {
         totalPrice += data.totalPrice 
       })
     }
+
     return (
       <View style={style.container}>
         <ScrollView style={{width: '100%'}}>
-          <Button 
-            onPress={() => this.toHome()}>Back</Button>
+          <View style={{alignSelf: 'flex-start', marginHorizontal: 10}}>
+            <TouchableHighlight style={style.buttons}
+              onPress={() => this.toHome()}
+              underlayColor={'#00000000'} >
+              <Image source={require('../assets/button-back.png')} />
+            </TouchableHighlight>
+          </View>
+
           <Text style={style.header}>User Cart</Text>
-          <View style={{backgroundColor: '#fff', alignItems: 'center', marginHorizontal: 10, marginVertical: 5, padding: 10}}>
+          <View style={style.total}>
             <View style={{flex: 1, flexDirection: 'row', }}>
               <View style={{flex: 1}}>
-                <Text style={{fontWeight: '600', fontSize: 18}}>Grand Total</Text>
+                <Text style={style.grandTotal}>Grand Total</Text>
                 <Text>Your Account Balance</Text>
               </View>
               <View style={{flex: 1, alignItems: 'flex-end'}}>
-                <Text style={{fontWeight: '600', fontSize: 18}}>{totalPrice}</Text>
+                <Text style={style.grandTotal}>Rp. {this.toRp(totalPrice)}</Text>
                 <Text>Rp. 0</Text>
               </View>
             </View>
-            <Button style={style.btn1} onPress={() => alert(`Checkout`)}>Checkout</Button>
+            <Button style={style.btn1} onPress={() => this.toCheckout()}>Checkout</Button>
           </View>
           {
-            this.props.cart.loading ? <Text>Loading</Text> :
+            this.props.cart.loading ?
+            <ActivityIndicator style={{paddingTop: 50}} size="large" color="#fff" /> :
             this.renderCard()                        
           }
           
@@ -63,6 +85,7 @@ class Cart extends Component {
     );
   }
 }
+
 const style = StyleSheet.create({
   container: {
     flex: 1,
@@ -73,8 +96,13 @@ const style = StyleSheet.create({
     color: '#fff',
     fontSize: 36,
     fontWeight: 'bold',
-    marginVertical: 36,
+    marginTop: 12,
+    marginBottom: 36,
     alignSelf: 'center'
+  },
+  grandTotal: {
+    fontWeight: '600', 
+    fontSize: 24
   },
   btn1: {
     marginTop: 30,
@@ -84,12 +112,37 @@ const style = StyleSheet.create({
     paddingVertical: 10,
     width: 240
   },
+  total: {
+    backgroundColor: '#fff', 
+    alignItems: 'center', 
+    marginHorizontal: 10, 
+    marginVertical: 5, 
+    padding: 10
+  },
+  buttons : {
+    height: 80,
+    width: 80,
+    paddingTop:5,
+    paddingBottom:20,
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor:'#00000000',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ffffff00',
+  }
 })
+
 const mapStateToProps = (state) => ({
   token: state.login.token,
   cart: state.cart
 })
+
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getCart
 }, dispatch)
-export default connect(mapStateToProps, mapDispatchToProps) (Cart)
+
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps
+)(Cart)

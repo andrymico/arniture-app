@@ -18,7 +18,7 @@ class ARScene extends Component {
     let arrObj = []
     const ARobjects = this.props.objects.ARobjects
     let showObjectAR = ARobjects.forEach((object, index) => {
-      arrObj.push(<ObjectAR key={index} id={index} object={object} />)
+      arrObj.push(<ObjectAR key={index} id={index} object={object} nav={this.props.nav} />)
     })
 
     return arrObj

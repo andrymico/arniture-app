@@ -4,11 +4,12 @@ import {
   Text,
   Image,
   StyleSheet,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from 'react-native';
 import Button from 'react-native-button';
 import ARScene from './ARScene'
-import {addToCart} from '../stores/cart/action';
+import { addToCart } from '../stores/cart/action';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createObjectAR } from '../stores/objects/actions';
@@ -24,7 +25,11 @@ class ItemCard extends Component {
 
   addToCart = () => {
     this.props.addToCart(this.props.item._id, this.props.token, this.props.item.price)
-    alert("Added new item to cart")
+    Alert.alert(`Added ${this.props.item.name} to cart`)
+  }
+
+  toRp(price) {
+    return price.toLocaleString()
   }
 
   render() {
@@ -39,7 +44,7 @@ class ItemCard extends Component {
         <View style={{flex:3, marginLeft: 10}}>
           <Text style={style.title}>{this.props.item.name}</Text>
           <Text style={style.description}>{this.props.item.description}</Text>
-          <Text style={style.price}>{this.props.item.price}</Text>
+          <Text style={style.price}>Rp. {this.toRp(this.props.item.price)}</Text>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Button style={style.btn1} onPress={() => this.toAR()}>Simulate AR</Button>
             <Button style={style.btn2} onPress={() => this.addToCart()}>Add to Cart</Button>
@@ -53,11 +58,14 @@ class ItemCard extends Component {
 const style = StyleSheet.create({
   card: {
     flex: 1,
-    flexDirection: 'row',
-    marginVertical: 4,
-    marginHorizontal: 4,
-    paddingVertical: 10,
     backgroundColor: '#fff',
+    flexDirection: 'row',
+    marginVertical: 5,
+    marginHorizontal: 10,
+    padding: 10,
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
+    shadowRadius: 1
   },
   thumbnail: {
     width: 116,

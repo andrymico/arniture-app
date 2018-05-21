@@ -4,6 +4,7 @@ import {
   Text,
   Image,
   StyleSheet,
+  Alert
 } from 'react-native';
 import Button from 'react-native-button';
 import { connect } from 'react-redux'
@@ -42,6 +43,22 @@ class CartItem extends Component {
       }
     })
   }
+
+  toRp(price) {
+    return price.toLocaleString()
+  }
+
+  deleteConfirm = () => {
+    Alert.alert(
+      'Remove from cart',
+      'Are you sure want to remove this item?',
+      [
+        {text: 'Cancel', onPress: () => {}},
+        {text: 'Confrim', onPress: () => this.delete()},
+      ],
+      { cancelable: false }
+    )
+  }
   
   delete = () => {
     this.props.deleteCart(this.props.object._id)
@@ -53,16 +70,32 @@ class CartItem extends Component {
   render() {
     return (
       <View style={style.card}>
-        <Button style={style.btn1} onPress={() => this.delete()}>X</Button>
-        <Image 
-          source={{uri: `https://storage.googleapis.com/arniture/${this.props.object.itemId.img}`}}
-          style={style.thumbnail} />
-        <Text style={style.title}>{this.props.object.itemId.name}</Text>
-        <Text style={style.description}>{this.props.object.itemId.description}</Text>
-        <Text style={style.price}>Quantity {this.props.object.quantity}</Text>
-        <Text style={style.price}>{this.props.object.totalPrice}</Text>
-        <Button onPress={() => this.increase()}>+</Button>
-        <Button onPress={() => this.decrease()}>-</Button>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <View style={{flex: 5}}>
+            <Text style={style.title}>{this.props.object.itemId.name}</Text>
+            <Text style={style.description}>{this.props.object.itemId.description}</Text>
+          </View>
+          <View style={{flex: 1}}>
+            <Button style={style.btn1} onPress={() => this.deleteConfirm()}>X</Button>
+          </View>
+        </View>
+
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <View style={{flex: 1}}>
+            <Image 
+              source={{uri: `https://storage.googleapis.com/arniture/${this.props.object.itemId.img}`}}
+              style={style.thumbnail} />
+          </View>
+          <View style={{flex: 1, alignItems: 'flex-end'}}>
+            <Text style={style.totalPrice}>Rp. {this.toRp(this.props.object.totalPrice)}</Text>
+            <Text style={style.price}>@Rp. {this.toRp(this.props.object.itemId.price)}</Text>
+            <View style={{flex: 1, marginTop: 20, flexDirection: 'row', alignSelf: 'flex-end'}}>
+              <Button style={style.btn2} onPress={() => this.decrease()}>-</Button>
+              <Text style={style.qty}>{this.props.object.quantity}</Text>
+              <Button style={style.btn2} onPress={() => this.increase()}>+</Button>
+            </View>
+          </View>
+        </View>
       </View>
     );
   }
@@ -76,8 +109,8 @@ const style = StyleSheet.create({
     padding: 10
   },
   thumbnail: {
-    width: 64,
-    height: 64,
+    width: 128,
+    height: 128,
     alignSelf: 'center',
     paddingTop: 16
   },
@@ -92,6 +125,15 @@ const style = StyleSheet.create({
     fontStyle: 'italic'
   },
   price: {
+    fontWeight: '300'
+  },
+  qty: {
+    paddingTop: 5,
+    paddingHorizontal: 15,
+    fontSize: 24,
+    fontWeight: '600'
+  },
+  totalPrice: {
     marginTop: 16,
     fontSize: 24,
     fontWeight: '600'
@@ -100,7 +142,15 @@ const style = StyleSheet.create({
     backgroundColor: "#d32f2f",
     color: "white",
     padding: 5,
-    width: '95%'
+    width: 40,
+    alignSelf: 'flex-end'
+  },
+  btn2: {
+    backgroundColor: "#00796B",
+    color: "white",
+    padding: 5,
+    margin: 2,
+    width: 40,
   },
 })
 const mapStateToProps = (state) => ({

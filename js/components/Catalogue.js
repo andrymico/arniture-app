@@ -6,7 +6,9 @@ import {
   StyleSheet,
   AsyncStorage,
   Button,
-  CameraRoll
+  CameraRoll,
+  TouchableHighlight,
+  Image
 } from 'react-native';
 import ItemCard from './ItemCard';
 import { connect } from 'react-redux'
@@ -45,13 +47,20 @@ class Catalogue extends Component {
   render() {
     return (
       <View style={style.container}>
-      <Button
-        title="cart"
-        onPress = { () => this.captureScreenFunction() }/>
-      <Button
-        title="cart"
-        onPress = { () => this.goToCart() }/>
+          <View style={{backgroundColor: '#DA0048', width: '100%'}}>
+            <View style={{alignSelf: 'flex-start', position: 'absolute', marginLeft: 24, marginTop: 24}}>
+              <Text style={{color: '#fff', fontSize: 48, fontWeight: 'bold',}}>ARniture</Text>  
+            </View>
+            <View style={{alignSelf: 'flex-end', marginHorizontal: 10}}>
+              <TouchableHighlight style={style.buttons}
+                onPress={() => this.goToCart()}
+                underlayColor={'#00000000'} >
+                <Image source={require('../assets/button-cart.png')} />
+              </TouchableHighlight>
+            </View>
+          </View>
         <ScrollView style={{width: '100%'}}>
+
           <Text style={style.header}>Catalogue</Text>
           { this.renderCard() }
         </ScrollView>
@@ -64,14 +73,27 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#d32f2f',
+    backgroundColor: '#F5F5F5',
   },
   header: {
-    color: '#fff',
+    color: '#C60042',
     fontSize: 36,
     fontWeight: 'bold',
-    marginVertical: 36,
+    marginTop: 12,
+    marginBottom: 36,
     alignSelf: 'center'
+  },
+  buttons : {
+    height: 80,
+    width: 80,
+    paddingTop:5,
+    paddingBottom:20,
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor:'#00000000',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ffffff00',
   }
 })
 
