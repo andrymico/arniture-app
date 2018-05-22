@@ -1,9 +1,7 @@
-'use strict';
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { loadObjects } from '../stores/objects/actions';
+import { View } from 'react-native';
 import {
   ViroARScene,
   Viro3DObject,
@@ -13,7 +11,7 @@ import {
 
 import ObjectAR from './ObjectAR';
 
-class ARScene extends Component {
+export class ARScene extends Component {
   showObjectAR() {
     let arrObj = []
     const ARobjects = this.props.objects.ARobjects
@@ -26,10 +24,12 @@ class ARScene extends Component {
 
   render() {
     return (
-      <ViroARScene onTrackingUpdated={this._onInitialized} >
-        <ViroAmbientLight color="#ffffff"/>
-        { this.showObjectAR() }
-      </ViroARScene>
+      <View>
+      </View>
+      // <ViroARScene onTrackingUpdated={this._onInitialized} >
+      //   <ViroAmbientLight color="#ffffff"/>
+      //   { this.showObjectAR() }
+      // </ViroARScene>
     );
   }
 }
@@ -38,11 +38,7 @@ const mapStateToProps = (state) => ({
   objects: state.objects
 })
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  loadObjects
-}, dispatch)
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(ARScene);

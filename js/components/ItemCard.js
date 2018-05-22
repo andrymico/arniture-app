@@ -13,8 +13,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createObjectAR } from '../stores/objects/actions';
 
-class ItemCard extends Component {
-
+export class ItemCard extends Component {
   toAR = () => {
     this.props.createObjectAR(this.props.item)
     if (this.props.nav) {
@@ -24,7 +23,7 @@ class ItemCard extends Component {
 
   addToCart = () => {
     this.props.addToCart(this.props.item._id, this.props.token, this.props.item.price)
-    alert("Added new item to cart")
+    // alert("Added new item to cart")
   }
 
   render() {

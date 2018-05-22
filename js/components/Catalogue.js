@@ -15,19 +15,10 @@ import { getItems } from '../stores/items/action'
 import { captureScreen } from "react-native-view-shot";
 
 export class Catalogue extends Component {
-  captureScreenFunction=()=>{
-    captureScreen({
-      format: "jpg",
-      quality: 0.8
-    })
-    .then(
-      uri => CameraRoll.saveToCameraRoll(uri),
-      error => console.error("Oops, Something Went Wrong", error)
-    );
-  }
   componentDidMount() {
     this.props.getItems()
   }
+
   renderCard() {
     let objectList = []
     
@@ -45,15 +36,12 @@ export class Catalogue extends Component {
   render() {
     return (
       <View style={style.container}>
-      <Button
-        title="cart"
-        onPress = { () => this.captureScreenFunction() }/>
-      <Button
-        title="cart"
-        onPress = { () => this.goToCart() }/>
+        <Button
+          title="cart"
+          onPress = { () => this.goToCart() }/>
         <ScrollView style={{width: '100%'}}>
           <Text style={style.header}>Catalogue</Text>
-          { this.renderCard() }
+          {/* { this.renderCard() } */}
         </ScrollView>
       </View>
     );
@@ -83,4 +71,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   getItems
 }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps) (Catalogue)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Catalogue)

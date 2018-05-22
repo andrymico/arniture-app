@@ -22,22 +22,23 @@ export class Login extends Component {
   toRegister = () => {
     this.props.navigation.navigate('Register')
   }
-// 
+
   login = async () => {
    await this.props.login(this.state.email, this.state.password)
-  
+   
    if (this.props.isLogin) {
      this.props.navigation.navigate('Home')
-   }
-
-   this.state.email = ''
-   this.state.password = ''
+    }
+    
+    this.state.email = ''
+    this.state.password = ''
   }
 
   render () {
     if (this.props.isLogin) {
       this.props.navigation.navigate('Home')
     }
+
     return (
       <View style={styles.container}>
         <Text>
@@ -64,7 +65,7 @@ export class Login extends Component {
         <TouchableHighlight
           onPress={ this.toRegister }>
           <Text style={ styles.underlined }>
-            Not a user ? Register here
+            Not a user? Register here
           </Text>
         </TouchableHighlight>
       </View>

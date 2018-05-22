@@ -38,13 +38,15 @@ export class Register extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Register</Text>
-        <TextInput 
+        <TextInput
+          testID="email"
           style={styles.inputText}
           placeholder="please input your email"
           onChangeText={
             (email) => this.setState({ email })
           } />
-        <TextInput 
+        <TextInput
+          testID="password"
           style={styles.inputText}
           placeholder="please input your password"
           secureTextEntry={ true }

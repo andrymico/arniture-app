@@ -28,12 +28,9 @@ export class AR extends Component {
   constructor() {
     super()
     this.state = {
-      apiKey: "43F28D4C-8082-4728-A51A-734CAD385246"
+      apiKey: "43F28D4C-8082-4728-A51A-734CAD385246",
+      empty: ''
     }
-  }
-
-  simulateObject = () => {
-    this.props.createObjectAR(dummy)
   }
 
   toHome() {
@@ -53,7 +50,7 @@ export class AR extends Component {
     return objectList
   }
 
-  captureScreenFunction=()=>{
+  captureScreenFunction = () => {
     captureScreen({
       format: "jpg",
       quality: 0.8
@@ -68,22 +65,21 @@ export class AR extends Component {
   render () {
     return (
       <View collapsable={false} style={styles.container}>
-      <Button
-        onPress={ () => this.captureScreenFunction() }>Screenshot</Button>
+        <Button
+          onPress={ () => this.captureScreenFunction() }>Screenshot</Button>
         <Modal style={[styles.modal, styles.modal4]} position={"bottom"} ref={"modal6"} swipeArea={20}>
           <ScrollView horizontal={true}>
-            {this.renderList()}
+            {/* {this.renderList()} */}
           </ScrollView>
         </Modal>
 
-        <ViroARSceneNavigator
+        {/* <ViroARSceneNavigator
           style={ styles.arView }
           apiKey={ this.state.apiKey }
           initialScene={{ scene: ARScene }}
           debug={true}
-        />
+        /> */}
 
-        {/* BUTTON SHOULD BE UNDER ViroARSceneNavigator */}
         <View style={{position: 'absolute', left: 10, top: 0}}>
           <TouchableHighlight style={styles.buttons}
             onPress={() => this.toHome()}
@@ -107,12 +103,6 @@ export class AR extends Component {
             <Image source={require('../assets/button-cart.png')} />
           </TouchableHighlight>
         </View>
-
-        {/* {
-          this.props.cart.data ?
-          <Text style={styles.cartNotif}>{this.props.cart.data.length}</Text> :
-          <Text />
-        } */}
 
         <View style={{position: 'absolute',  left: 0, right: 0, bottom: 10, alignItems: 'center'}}>
           <TouchableHighlight style={styles.buttons}

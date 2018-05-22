@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Alert, StyleSheet } from 'react-native'
+import { Alert, StyleSheet, View } from 'react-native'
 import {
   Viro3DObject,
   ViroNode,
@@ -16,7 +16,7 @@ import { removeObjectAR, showDialog} from '../stores/objects/actions'
 import { addToCart, getCart } from '../stores/cart/action'
 import ViewShot, { captureScreen } from 'react-native-view-shot'
 
-class ObjectAR extends Component {
+export class ObjectAR extends Component {
   constructor() {
     super();
     this.state = {
@@ -56,7 +56,7 @@ class ObjectAR extends Component {
 
   addToCart = () => {
     this.props.addToCart(this.props.object._id, this.props.token, this.props.object.price)
-    alert("Added new item to cart")
+    Alert.alert("Added new item to cart")
   }
   
   _onClick = () => {
@@ -88,52 +88,37 @@ class ObjectAR extends Component {
     })
   }
 
-  doSnapShot = () => {
-    captureScreen({
-      format: "jpg",
-      quality: 0.8
-    })
-    .then(
-      uri => console.log("Image saved to", uri),
-      error => console.error("Oops, snapshot failed", error)
-    );
-  }
-
   render() {
     return (
-      <ViroNode>
-        <ViroSpotLight
-          innerAngle={5}
-          outerAngle={25}
-          direction={[0, -1, -.2]}
-          position={[0, 3, 0]}
-          color="#ffffff"
-          castsShadow={true}
-          shadowMapSize={2048}
-          shadowNearZ={2}
-          shadowFarZ={5}
-          shadowOpacity={.7} />
+      <View>
+      </View>
+      // <ViroNode>
+      //   <ViroSpotLight
+      //     innerAngle={5}
+      //     outerAngle={25}
+      //     direction={[0, -1, -.2]}
+      //     position={[0, 3, 0]}
+      //     color="#ffffff"
+      //     castsShadow={true}
+      //     shadowMapSize={2048}
+      //     shadowNearZ={2}
+      //     shadowFarZ={5}
+      //     shadowOpacity={.7} />
 
-        <Viro3DObject
-          source={{uri: `https://storage.googleapis.com/arniture/${this.props.object.item_obj}`}}
-          resources={[{uri: `https://storage.googleapis.com/arniture/${this.props.object.item_mtl[0]}`},
-                      {uri: `https://storage.googleapis.com/arniture/${this.props.object.item_mtl[1]}`}]}
-          onClick={this._onClick}
-          ref={this._setARNodeRef}
-          rotation={this.state.rotation}
-          onRotate={this._onRotate}
-          onDrag={this._onDrag}
-          dragType="FixedToWorld"
-          position={[0, -1, -1]}
-          scale={this.props.object.scale}
-          type="OBJ" />
-
-        {/* <ViroQuad
-          position={[0, 0, -1]}
-          rotation={[-90, 0, 0]}
-          width={20} height={20}
-          arShadowReceiver={true} /> */}
-      </ViroNode>
+      //   <Viro3DObject
+      //     source={{uri: `https://storage.googleapis.com/arniture/${this.props.object.item_obj}`}}
+      //     resources={[{uri: `https://storage.googleapis.com/arniture/${this.props.object.item_mtl[0]}`},
+      //                 {uri: `https://storage.googleapis.com/arniture/${this.props.object.item_mtl[1]}`}]}
+      //     onClick={this._onClick}
+      //     ref={this._setARNodeRef}
+      //     rotation={this.state.rotation}
+      //     onRotate={this._onRotate}
+      //     onDrag={this._onDrag}
+      //     dragType="FixedToWorld"
+      //     position={[0, -1, -1]}
+      //     scale={this.props.object.scale}
+      //     type="OBJ" />
+      // </ViroNode>
     );
   }
 }
