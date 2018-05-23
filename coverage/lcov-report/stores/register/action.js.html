@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">40% </span>
+        <span class="strong">73.33% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/15</span>
+        <span class='fraction'>11/15</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -30,21 +30,21 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">55.56% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/9</span>
+        <span class='fraction'>5/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">66.67% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/12</span>
+        <span class='fraction'>8/12</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -89,20 +89,18 @@
 <a name='L41'></a><a href='#L41'>41</a>
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
-<a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -116,42 +114,41 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   RESET
-  
 } from './action.types'
 import axios from 'axios'
 &nbsp;
 const endPoint = 'http://ec2-34-237-243-5.compute-1.amazonaws.com/users/signup'
 &nbsp;
-export const register = <span class="fstat-no" title="function not covered" >(e</span>mail, password) =&gt; {
-<span class="cstat-no" title="statement not covered" >  return <span class="fstat-no" title="function not covered" >di</span>spatch =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    axios.post(endPoint, {</span>
+export const register = (email, password) =&gt; {
+  return dispatch =&gt; {
+    axios.post('http://ec2-34-237-243-5.compute-1.amazonaws.com/users/signup', {
       email: email,
       password: password,
       role: 'user'
     })
-      .then(<span class="fstat-no" title="function not covered" >fu</span>nction (response) {
+    .then(<span class="fstat-no" title="function not covered" >fu</span>nction (response) {
 <span class="cstat-no" title="statement not covered" >        dispatch(registerSuccess())</span>
       })
       .catch(<span class="fstat-no" title="function not covered" >fu</span>nction (err) {
@@ -160,12 +157,12 @@ export const register = <span class="fstat-no" title="function not covered" >(e<
   }
 }
 &nbsp;
-const registerFail = <span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
+export const registerFail = (err) =&gt; ({
   type: REGISTER_FAIL,
   payload: err
 })
 &nbsp;
-const registerSuccess = <span class="fstat-no" title="function not covered" >()</span> =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
+export const registerSuccess = () =&gt; ({
   type: REGISTER_SUCCESS
 })
 &nbsp;
@@ -175,7 +172,7 @@ export const resetRegisterState = <span class="fstat-no" title="function not cov
   }
 }
 &nbsp;
-const reset = <span class="fstat-no" title="function not covered" >()</span> =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
+export const reset = () =&gt; ({
   type: RESET
 })
 &nbsp;</pre></td></tr>
@@ -184,7 +181,7 @@ const reset = <span class="fstat-no" title="function not covered" >()</span> =&g
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 22 2018 19:28:58 GMT+0700 (WIB)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed May 23 2018 09:46:48 GMT+0700 (WIB)
 </div>
 </div>
 <script src="../../prettify.js"></script>

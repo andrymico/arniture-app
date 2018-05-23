@@ -1,6 +1,3 @@
-export const LOAD_OBJECTS = 'LOAD_OBJECTS'
-export const ACTION_PENDING = 'ACTION_PENDING'
-export const ACTION_ERROR = 'ACTION_ERROR'
 export const CREATE_AR_OBJECT = 'CREATE_AR_OBJECT'  
 export const REMOVE_AR_OBJECT = 'REMOVE_AR_OBJECT'
 export const RESET = 'RESET'

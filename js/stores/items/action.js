@@ -11,7 +11,7 @@ import {
  export const getItems = () => {
    return dispatch => {
      dispatch(getItemsLoading())
-    axios.get(endPoint)
+    axios.get('http://ec2-34-237-243-5.compute-1.amazonaws.com/items')
       .then(function (response) {
         dispatch(getItemsSuccess(response.data.items))
       })

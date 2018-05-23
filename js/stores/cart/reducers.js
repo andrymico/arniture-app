@@ -5,6 +5,7 @@ import {
   INCREASE_QUANTITY,
   DECREASE_QUANTITY
 } from './action.types'
+
 const initialState = {
   loading: false,
   error: {
@@ -13,6 +14,7 @@ const initialState = {
   },
   data: []
 }
+
 const cartReducers = (state = {...initialState}, action) => {
   switch (action.type) {
     case GET_CART_LOADING:

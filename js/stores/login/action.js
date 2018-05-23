@@ -10,7 +10,7 @@ const endPoint = 'http://ec2-34-237-243-5.compute-1.amazonaws.com/users/signin'
 
 export const login = (email, password) => {
   return dispatch => {
-    axios.post(endPoint, {
+    axios.post('http://ec2-34-237-243-5.compute-1.amazonaws.com/users/signin', {
       email: email,
       password: password
     })
